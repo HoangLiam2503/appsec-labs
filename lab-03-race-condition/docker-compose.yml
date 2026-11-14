@@ -1,0 +1,20 @@
+# VulnBank lab-03 — race condition / double-spend
+# Vulnerable build on :5000, fixed build on :5001, so you can race both.
+services:
+  vuln:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      BUILD: app          # vulnerable
+    ports:
+      - "5000:5000"
+
+  fixed:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      BUILD: fixed        # patched
+    ports:
+      - "5001:5000"

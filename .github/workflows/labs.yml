@@ -1,0 +1,31 @@
+name: appsec-labs CI
+
+on: [push, pull_request]
+
+jobs:
+  lab-03-race-condition:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lab-03-race-condition
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r app/requirements.txt requests
+
+      - name: Vulnerable build must reproduce the double-spend
+        run: |
+          DB_PATH=/tmp/v.db python app/init_db.py
+          DB_PATH=/tmp/v.db PORT=5000 python app/app.py & sleep 2
+          python exploit/race_exploit.py http://localhost:5000 10   # exit 0 == vulnerable (pass)
+
+      - name: Fixed build must close it
+        run: |
+          DB_PATH=/tmp/f.db python app/init_db.py
+          DB_PATH=/tmp/f.db PORT=5001 python fixed/app.py & sleep 2
+          # exploit exits 1 when the race is closed; invert so a good fix passes the step
+          if python exploit/race_exploit.py http://localhost:5001 10; then
+            echo "::error::race still reproduces on fixed build"; exit 1
+          fi

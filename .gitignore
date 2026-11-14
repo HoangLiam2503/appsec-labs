@@ -1,11 +1,7 @@
-# Lab artifacts
-*.db
 __pycache__/
 *.pyc
+*.db
+/data/
+.env
 .venv/
 venv/
-
-# OS / editor
-.DS_Store
-.idea/
-.vscode/

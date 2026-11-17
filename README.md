@@ -12,6 +12,7 @@ patched build, an automated exploit/regression test, and a full writeup.
 | Lab | Vulnerability | OWASP | CWE | Stack |
 |-----|---------------|-------|-----|-------|
 | [lab-01](lab-01-vulnbank/) | SQL Injection (auth bypass) + IDOR | A03, A01 | CWE-89, CWE-639 | Flask / SQLite |
+| [lab-02](lab-02-xss/) | Stored + reflected XSS (CSP, HttpOnly) | A03 | CWE-79 | Node.js (zero-dep) |
 | [lab-03](lab-03-race-condition/) | Race condition / double-spend (TOCTOU) | A04 | CWE-362, CWE-367 | Flask / SQLite |
 
 Each lab folder has its own `README.md` (setup + "try it yourself") and

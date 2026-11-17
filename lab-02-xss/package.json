@@ -1,0 +1,12 @@
+{
+  "name": "vulnboard-lab-02-xss",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Deliberately vulnerable XSS lab (Node, zero-dependency)",
+  "scripts": {
+    "start": "node app/server.js",
+    "start:fixed": "node fixed/server.js",
+    "exploit": "node exploit/xss_exploit.js"
+  },
+  "license": "MIT"
+}

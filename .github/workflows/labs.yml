@@ -3,6 +3,29 @@ name: appsec-labs CI
 on: [push, pull_request]
 
 jobs:
+  lab-02-xss:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lab-02-xss
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Vulnerable build must reproduce XSS
+        run: |
+          PORT=3000 node app/server.js & sleep 1
+          node exploit/xss_exploit.js http://localhost:3000   # exit 0 == vulnerable (pass)
+
+      - name: Fixed build must neutralise it
+        run: |
+          PORT=3001 node fixed/server.js & sleep 1
+          if node exploit/xss_exploit.js http://localhost:3001; then
+            echo "::error::XSS still reproduces on fixed build"; exit 1
+          fi
+
   lab-03-race-condition:
     runs-on: ubuntu-latest
     defaults:
